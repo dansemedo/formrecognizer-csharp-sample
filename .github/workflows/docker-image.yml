@@ -1,0 +1,34 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      env:
+        DOCKERREGISTRY: ${{ secrets.dockerregistry }}
+      run: docker build . --file FormRecognizerAPI/Dockerfile --tag "$DOCKERREGISTRY"/formrecognizerapi:latest
+      
+    - name: Docker Login
+      uses: docker/login-action@v1.10.0
+      with:
+        # Server address of Docker registry. If not set then will default to Docker Hub
+        registry: ${{ secrets.dockerregistry }}
+        username: ${{ secrets.dockerusername }}
+        password: ${{ secrets.dockerpassword }}
+        logout: false
+        
+    - name: Docker-Push
+      env: 
+        DOCKERREGISTRY: ${{ secrets.dockerregistry }}
+      run: docker push "$DOCKERREGISTRY"/formrecognizerapi:latest

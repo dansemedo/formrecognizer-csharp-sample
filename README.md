@@ -8,3 +8,6 @@ In the Form Recognizer services, copy the endpoint address and keys and paste in
 
 Run the application and use as parameter for the POST request the picture URL commented in the source code.
 
+https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/DriverLicense.png
+
+
